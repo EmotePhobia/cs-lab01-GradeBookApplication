@@ -105,7 +105,7 @@ namespace GradeBook.GradeBooks
                 }
             }
         }
-
+        public bool IsWeighted { get; set; }
         public virtual double GetGPA(char letterGrade, StudentType studentType)
         {
             switch (letterGrade)
