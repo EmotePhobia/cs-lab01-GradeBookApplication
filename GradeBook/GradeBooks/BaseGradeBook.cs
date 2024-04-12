@@ -109,20 +109,32 @@ namespace GradeBook.GradeBooks
         public bool IsWeighted { get; set; }
         public virtual double GetGPA(char letterGrade, StudentType studentType)
         {
+            int additionalPoint = 0;
+            if (IsWeighted == true)
+            {
+                if(studentType == StudentType.Honors || studentType == StudentType.DualEnrolled)
+                {
+                    additionalPoint = 1;
+                }
+            }
+            else
+            {
+                additionalPoint = 0;
+            }
             switch (letterGrade)
             {
                 case 'A':
-                    return 4;
+                    return 4 + additionalPoint;
                 case 'B':
-                    return 3;
+                    return 3 + additionalPoint;
                 case 'C':
-                    return 2;
+                    return 2 + additionalPoint;
                 case 'D':
-                    return 1;
+                    return 1 + additionalPoint;
                 case 'F':
-                    return 0;
+                    return 0 + additionalPoint;
             }
-            return 0;
+            return 0 + additionalPoint;
         }
 
         public virtual void CalculateStatistics()
@@ -139,7 +151,7 @@ namespace GradeBook.GradeBooks
             foreach (var student in Students)
             {
                 student.LetterGrade = GetLetterGrade(student.AverageGrade);
-                student.GPA = GetGPA(student.LetterGrade, student.Type);
+               student.GPA = GetGPA(student.LetterGrade, student.Type);
 
                 Console.WriteLine("{0} ({1}:{2}) GPA: {3}.", student.Name, student.LetterGrade, student.AverageGrade, student.GPA);
                 allStudentsPoints += student.AverageGrade;
